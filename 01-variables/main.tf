@@ -19,9 +19,14 @@ resource "aws_security_group" "allow_ssh" {
 resource "aws_instance" "ec2_vars" {
 
     ami =  var.ami_id
-    instance_type = var.instance_type
+    instance_type = "t3.micro"
     vpc_security_group_ids = [ aws_security_group.allow_ssh.id ]
-    tags = var.ec2_tags
+    tags = {
+      Name = "docker"
+    }
+    root_block_device {
+      volume_size = 40
+    }
 }
 
 # Terraform loads variables in the following order, with later sources taking precedence over earlier ones:
